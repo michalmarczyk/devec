@@ -1,4 +1,4 @@
-(defproject devec "0.0.1"
+(defproject devec "0.0.2-SNAPSHOT"
   :description "Double-Ended Vectors for Clojure"
   :url "https://github.com/michalmarczyk/devec"
   :license {:name "Eclipse Public License"

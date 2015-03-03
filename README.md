@@ -136,19 +136,19 @@ Please follow the link above to discover the current release number.
 
 [Leiningen](http://leiningen.org/) dependency information:
 
-    [org.clojure/core.rrb-vector "${version}"]
+    [devec "${version}"]
 
 [Maven](http://maven.apache.org/) dependency information:
 
     <dependency>
-      <groupId>org.clojure</groupId>
-      <artifactId>core.rrb-vector</artifactId>
+      <groupId>devec</groupId>
+      <artifactId>devec</artifactId>
       <version>${version}</version>
     </dependency>
 
 [Gradle](http://www.gradle.org/) dependency information:
 
-    compile "org.clojure:core.rrb-vector:${version}"
+    compile "devec:devec:${version}"
 
 ## Developer information
 
