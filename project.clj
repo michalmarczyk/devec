@@ -6,5 +6,5 @@
   :dependencies [[org.clojure/clojure "1.7.0-alpha5"]]
   :jvm-opts ^:replace ["-XX:+UseG1GC"]
   :profiles {:dev {:dependencies [[org.clojure/test.check "0.7.0"]
-                                  [collection-check "0.1.4"]
-                                  [criterium "0.4.2"]]}})
+                                  [collection-check "0.1.5"]
+                                  [criterium "0.4.3"]]}})
