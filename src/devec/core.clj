@@ -457,7 +457,7 @@
       (== 1 cnt)
       (with-meta empty-devec _meta)
 
-      (> headoff 1)
+      (pos? headoff)
       (let [head-len (dec headoff)
             new-head (object-array head-len)]
         (System/arraycopy head 1 new-head 0 head-len)
@@ -465,10 +465,13 @@
           new-head trie tail head-len trieoff (dec tailoff)
           shift (dec cnt) _meta -1 -1))
 
-      (== headoff tailoff)
-      (DoubleEndedVector.
-        empty-array empty-node tail 0 0 0
-        5 (dec cnt) _meta -1 -1)
+      (zero? tailoff)
+      (let [tail-len (dec cnt)
+            new-tail (object-array tail-len)]
+        (System/arraycopy tail 1 new-tail 0 tail-len)
+        (DoubleEndedVector.
+          empty-array empty-node new-tail 0 0 0
+          5 (dec cnt) _meta -1 -1))
 
       :else
       (let [new-head (.trieArrayFor this 0)
