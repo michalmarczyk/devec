@@ -60,13 +60,8 @@
                        #(.-tailoff ^DoubleEndedVector %)]))
 
 (defn dbg-vec [v]
-  (let [[extract-head extract-root extract-shift extract-tail
-         extract-headoff extract-trieoff extract-tailoff]
-        (accessors-for v)
-        head  (extract-head v)
-        root  (extract-root v)
-        shift (extract-shift v)
-        tail  (extract-tail v)]
+  (let [[head root shift tail headoff trieoff tailoff]
+        ((apply juxt (accessors-for v)) v)]
     (letfn [(go [indent shift i node]
               (when node
                 (dotimes [_ indent]
@@ -76,14 +71,26 @@
                   (print ":" (vec (.-array ^PersistentVector$Node node))))
                 (println)
                 (if-not (zero? shift)
-                  (dorun
-                    (map-indexed (partial go (inc indent) (- shift 5))
-                      (.-array ^PersistentVector$Node node))))))]
+                  (let [arr (.-array ^PersistentVector$Node node)
+                        fst (reduce-kv (fn [out k v]
+                                         (if (some? v)
+                                           (reduced k)
+                                           out))
+                              0
+                              (vec arr))]
+                    (when (pos? fst)
+                      (dotimes [_ (inc indent)]
+                        (print "  "))
+                      (printf "%02d:%02d - %02d:%02d empty\n"
+                        (- shift 5) 0 (- shift 5) (dec fst)))
+                    (dorun
+                      (map-indexed (partial go (inc indent) (- shift 5))
+                        arr))))))]
       (printf "%s (%d elements):\n" (.getName (class v)) (count v))
       (println
-        "headoff" (extract-headoff v)
-        "trieoff" (extract-trieoff v)
-        "tailoff" (extract-tailoff v))
+        "headoff" headoff
+        "trieoff" trieoff
+        "tailoff" tailoff)
       (println "head:" (pr-str (vec head)))
       (go 0 shift 0 root)
       (println "tail:" (pr-str (vec tail))))))
